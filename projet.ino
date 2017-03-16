@@ -29,8 +29,63 @@ void loop() {
   }else{
     digitalWrite(pMoteurMoins, LOW);
   }
-  
+
+  if (eEnrPos == HIGH && ePos1 == HIGH) {
+    rPos1 = enr();
+  }
+
+  if (eEnrPos == HIGH && ePos2 == HIGH) {
+    rPos2 = enr();
+  }
+
+  if (eEnrPos == HIGH && ePos3 == HIGH) {
+    rPos3 = enr();
+  }
+
+  if (eEnrPos == LOW && ePos1 == HIGH) {
+    pos(rPos1);
+  }
+
+  if (eEnrPos == LOW && ePos2 == HIGH) {
+    pos(rPos2);
+  }
+
+  if (eEnrPos == LOW && ePos3 == HIGH) {
+    pos(rPos3);
+  }
+
   //Serial.print("rPos1 = ");
   //Serial.println(rPos1);
 
+}
+
+int enr() {
+  int x;
+  eAnalog = analogRead(pAnalog);
+  
+  x = eAnalog;
+  //Serial.print("fonction enr = ");
+  //Serial.println(x);
+  return x; 
+}
+
+void pos(int x) {
+  if (eAnalog < x) {
+    while (eAnalog != x) {
+      eAnalog = analogRead(pAnalog);
+      digitalWrite(pMoteurPlus, HIGH);
+    }
+  }
+
+  if (eAnalog > x) {
+    while (eAnalog != x) {
+      eAnalog = analogRead(pAnalog);
+      digitalWrite(pMoteurMoins, HIGH);
+    }
+  }
+
+  if (eAnalog == x) {
+    digitalWrite(pMoteurPlus, LOW);
+    digitalWrite(pMoteurMoins, LOW);
+  }
 }
